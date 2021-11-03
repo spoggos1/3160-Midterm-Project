@@ -10,7 +10,7 @@ group by lastname;
 select lastname, firstname, departmentname from worker join assign on 
 worker.empid = assign.empid join dept using(departmentid) where projno = 1019;
 9)
-select projno, projname, lastname, firstname, empid from assign join worker
+create view Question_9 as select projno, projname, lastname, firstname, empid from assign join worker
 using (empid) join project using (projno);
 11)
 insert into WORKER values (18,'Skavantzos','Panagiotis',2,'18-JUN-1994',
@@ -25,8 +25,8 @@ insert into ASSIGN values(1019,19,7,3);
 insert into ASSIGN values(1030,19,25,4);
 insert into ASSIGN values(1033,20,15,null);
 insert into ASSIGN values (1032,20,12,null);
-select projno, projname, lastname, firstname, empid from assign join worker
-using (empid) join project using (projno);
+select * from question_9;
+
 13)
 select projno, empid, lastname, firstname from project join worker on
 project.projmgrid = worker.empid where startdate >'01-SEP-2021';
@@ -51,4 +51,3 @@ update project set numemployeesassigned = 4 where projno = 1030;
 update project set numemployeesassigned = 1 where projno = 1031;
 update project set numemployeesassigned = 2 where projno = 1032;
 update project set numemployeesassigned = 2 where projno = 1033;
-
