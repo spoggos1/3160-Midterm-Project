@@ -91,4 +91,8 @@ update project set numemployeesassigned = 1 where projno = 1031;
 update project set numemployeesassigned = 2 where projno = 1032;
 update project set numemployeesassigned = 2 where projno = 1033;
 20)
-
+create trigger numEmployeesAssigned
+on assign
+after insert, delete, update
+as
+begin with 
