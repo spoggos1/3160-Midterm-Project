@@ -1,0 +1,69 @@
+2)
+select * 
+from project
+where projname like '%urn%';
+
+4)
+select lastname, firstname
+from worker join assign on (worker.empid = assign.empid)
+join project on (assign.projno = project.projno)
+where project.projno = 1001
+order by lastname;
+
+6)
+select *
+from project
+where budget = (select max(budget) from project);
+
+8)
+select firstname, lastname, rating
+from worker join assign on (worker.empid = assign.empid)
+where assign.projno in(select projno from project where projmgrid in(
+select empid from worker where lastname = 'Burns' and firstname = 'Michael'));
+
+10)
+select projno, projname
+from Question_9
+where empid = 101;
+
+12)
+update assign
+set hoursassigned = 10
+where empid = 110 and projno = 1019;
+
+14)
+select projno, count(empid), sum(hoursassigned)
+from assign
+group by projno;
+
+16)
+select projno, projname, startdate
+from project 
+where startdate in (select startdate from project
+group by startdate having count(*)>1);
+
+18)
+select empid, projno
+from assign
+where rating is null;
+
+20)
+create or replace trigger update_employees_assigned
+   after insert or delete or update on assign 
+   for each row 
+begin  
+    if inserting then
+        update project set numemployeesassigned = numemployeesassigned+1
+           where projno = :new.projno;
+    end if;
+    if deleting then
+        update project set numemployeesassigned = numemployeesassigned-1
+           where projno = :old.projno;
+    end if;
+    if updating then
+     update project set numemployeesassigned = numemployeesassigned+1
+           where projno = :new.projno;
+     update project set numemployeesassigned = numemployeesassigned-1
+           where projno = :old.projno;
+    END IF;
+end;
