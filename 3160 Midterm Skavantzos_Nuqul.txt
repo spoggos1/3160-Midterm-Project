@@ -38,16 +38,12 @@ where empid = 101;
 11)
 insert into WORKER values (18,'Skavantzos','Panagiotis',2,'18-JUN-1994',
 '06-JUN-2021',100000);
-insert into WORKER values(19,'Smith','John',2,'19-JULY-1995','07-JULY-2021',
+insert into WORKER values(19,'Nuqul','Fadi',2,'17-JULY-2000','07-JULY-2021',
 75000);
-insert into WORKER values(20,'Owen','Nicole',2,'20-AUGUST-1996','08-AUGUST-2021',
-80000);
 insert into ASSIGN values(1001,18,30,null);
 insert into ASSIGN values(1005,18,20,3);
 insert into ASSIGN values(1019,19,7,3);
 insert into ASSIGN values(1030,19,25,4);
-insert into ASSIGN values(1033,20,15,null);
-insert into ASSIGN values (1032,20,12,null);
 select * from question_9;
 12)
 update assign
