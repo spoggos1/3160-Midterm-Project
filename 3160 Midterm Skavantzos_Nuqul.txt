@@ -1,40 +1,22 @@
 1)
 select lastname, firstname from worker join dept on worker.departmentid =
 dept.departmentid where dept.departmentname = 'Accounting';
-2)
-select * 
-from project
-where projname like '%urn%';
+
 3)
 select empid, lastname, firstname, round(salary/12) from worker;
-4)
-select lastname, firstname
-from worker join assign on (worker.empid = assign.empid)
-join project on (assign.projno = project.projno)
-where project.projno = 1001
-order by lastname;
+
 5)
 select min(salary), lastname from worker where departmentid = 2
 group by lastname;
-6)
-select *
-from project
-where budget = (select max(budget) from project);
+
 7)
 select lastname, firstname, departmentname from worker join assign on 
 worker.empid = assign.empid join dept using(departmentid) where projno = 1019;
-8)
-select firstname, lastname, rating
-from worker join assign on (worker.empid = assign.empid)
-where assign.projno in(select projno from project where projmgrid in(
-select empid from worker where lastname = 'Burns' and firstname = 'Michael'));
+
 9)
 create view Question_9 as select projno, projname, lastname, firstname, empid from assign join worker
 using (empid) join project using (projno);
-10)
-select projno, projname
-from Question_9
-where empid = 101;
+
 11)
 insert into WORKER values (18,'Skavantzos','Panagiotis',2,'18-JUN-1994',
 '06-JUN-2021',100000);
@@ -45,26 +27,16 @@ insert into ASSIGN values(1005,18,20,3);
 insert into ASSIGN values(1019,19,7,3);
 insert into ASSIGN values(1030,19,25,4);
 select * from question_9;
-12)
-update assign
-set hoursassigned = 10
-where empid = 110 and projno = 1019;
+
 13)
 select projno, empid, lastname, firstname from project join worker on
 project.projmgrid = worker.empid where startdate >'01-SEP-2021';
-14)
-select projno, count(empid), sum(hoursassigned)
-from assign
-group by projno;
+
 15)
 select lastname, firstname, projmgrid from worker join project
 on project.projmgrid = worker.empid join assign on assign.empid =
 worker.empid where assign.empid = null;
-16)
-select projno, projname, startdate
-from project 
-where startdate in (select startdate from project
-group by startdate having count(*)>1);
+
 17)
 alter table project add STATUS varchar(10);
 update project set status = 'ACTIVE' where projno = 1001;
@@ -72,10 +44,7 @@ update project set status = 'ACTIVE' where projno = 1005;
 update project set status = 'ACTIVE' where projno = 1019;
 update project set status = 'COMPLETE' where projno = 1025;
 update project set status = 'CANCELLED' where projno = 1030;
-18)
-select empid, projno
-from assign
-where rating is null;
+
 19)
 alter table project add numEmployeesAssigned integer;
 update project set numemployeesassigned = 5 where projno = 1001;
@@ -86,23 +55,3 @@ update project set numemployeesassigned = 4 where projno = 1030;
 update project set numemployeesassigned = 1 where projno = 1031;
 update project set numemployeesassigned = 2 where projno = 1032;
 update project set numemployeesassigned = 2 where projno = 1033;
-20)
-create or replace trigger update_employees_assigned
-   after insert or delete or update on assign 
-   for each row 
-begin  
-    if inserting then
-        update project set numemployeesassigned = numemployeesassigned+1
-           where projno = :new.projno;
-    end if;
-    if deleting then
-        update project set numemployeesassigned = numemployeesassigned-1
-           where projno = :old.projno;
-    end if;
-    if updating then
-     update project set numemployeesassigned = numemployeesassigned+1
-           where projno = :new.projno;
-     update project set numemployeesassigned = numemployeesassigned-1
-           where projno = :old.projno;
-    END IF;
-end;
