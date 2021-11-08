@@ -91,8 +91,22 @@ update project set numemployeesassigned = 1 where projno = 1031;
 update project set numemployeesassigned = 2 where projno = 1032;
 update project set numemployeesassigned = 2 where projno = 1033;
 20)
-create trigger numEmployeesAssigned
-on assign
-after insert, delete, update
-as
-begin with 
+create or replace trigger update_employees_assigned
+   after insert or delete or update on assign 
+   for each row 
+begin  
+    if inserting then
+        update project set numemployeesassigned = numemployeesassigned+1
+           where projno = :new.projno;
+    end if;
+    if deleting then
+        update project set numemployeesassigned = numemployeesassigned-1
+           where projno = :old.projno;
+    end if;
+    if updating then
+     update project set numemployeesassigned = numemployeesassigned+1
+           where projno = :new.projno;
+     update project set numemployeesassigned = numemployeesassigned-1
+           where projno = :old.projno;
+    END IF;
+end;
